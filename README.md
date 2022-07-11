@@ -1,2 +1,1 @@
-# Baekjoon
-Algorithm / Baekjoon
+
