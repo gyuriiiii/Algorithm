@@ -6,9 +6,7 @@ public class Main {
 
         long n = sc.nextLong();
         long m = sc.nextLong();
-        long max = Math.max(n, m);
-        long min = Math.min(n, m);
 
-        System.out.print(max-min);
+        System.out.print(Math.abs(n-m));
     }
 }
