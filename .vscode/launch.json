@@ -1,0 +1,182 @@
+{
+    // IntelliSense를 사용하여 가능한 특성에 대해 알아보세요.
+    // 기존 특성에 대한 설명을 보려면 가리킵니다.
+    // 자세한 내용을 보려면 https://go.microsoft.com/fwlink/?linkid=830387을(를) 방문하세요.
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch 치킨두마리",
+            "request": "launch",
+            "mainClass": "치킨두마리",
+            "projectName": "백준_95560f55"
+        },
+        {
+            "type": "java",
+            "name": "Launch 럭비클럽",
+            "request": "launch",
+            "mainClass": "럭비클럽",
+            "projectName": "백준_95560f55"
+        },
+        {
+            "type": "java",
+            "name": "Launch 나는행복합니다",
+            "request": "launch",
+            "mainClass": "나는행복합니다",
+            "projectName": "백준_95560f55"
+        },
+        {
+            "type": "java",
+            "name": "Launch 팩토리얼",
+            "request": "launch",
+            "mainClass": "팩토리얼",
+            "projectName": "백준_95560f55"
+        },
+        {
+            "type": "java",
+            "name": "Launch Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Launch A나누기B",
+            "request": "launch",
+            "mainClass": "A나누기B",
+            "projectName": "백준_95560f55"
+        },
+        {
+            "type": "java",
+            "name": "Launch Main",
+            "request": "launch",
+            "mainClass": "Main",
+            "projectName": "백준_95560f55"
+        },
+        {
+            "type": "java",
+            "name": "Launch hello",
+            "request": "launch",
+            "mainClass": "hello",
+            "projectName": "백준_95560f55"
+        },
+        {
+            "type": "java",
+            "name": "Launch n찍기",
+            "request": "launch",
+            "mainClass": "n찍기",
+            "projectName": "백준_95560f55"
+        },
+        {
+            "type": "java",
+            "name": "Launch 구구단",
+            "request": "launch",
+            "mainClass": "구구단",
+            "projectName": "백준_95560f55"
+        },
+        {
+            "type": "java",
+            "name": "Launch 균형잡힌세상",
+            "request": "launch",
+            "mainClass": "균형잡힌세상",
+            "projectName": "백준_95560f55"
+        },
+        {
+            "type": "java",
+            "name": "Launch 그대로출력하기",
+            "request": "launch",
+            "mainClass": "그대로출력하기",
+            "projectName": "백준_95560f55"
+        },
+        {
+            "type": "java",
+            "name": "Launch 기초입출력",
+            "request": "launch",
+            "mainClass": "기초입출력",
+            "projectName": "백준_95560f55"
+        },
+        {
+            "type": "java",
+            "name": "Launch 달력2007년",
+            "request": "launch",
+            "mainClass": "달력2007년",
+            "projectName": "백준_95560f55"
+        },
+        {
+            "type": "java",
+            "name": "Launch 미국스타일",
+            "request": "launch",
+            "mainClass": "미국스타일",
+            "projectName": "백준_95560f55"
+        },
+        {
+            "type": "java",
+            "name": "Launch 방번호",
+            "request": "launch",
+            "mainClass": "방번호",
+            "projectName": "백준_95560f55"
+        },
+        {
+            "type": "java",
+            "name": "Launch 별찍기1",
+            "request": "launch",
+            "mainClass": "별찍기1",
+            "projectName": "백준_95560f55"
+        },
+        {
+            "type": "java",
+            "name": "Launch 별찍기2",
+            "request": "launch",
+            "mainClass": "별찍기2",
+            "projectName": "백준_95560f55"
+        },
+        {
+            "type": "java",
+            "name": "Launch 소수찾기",
+            "request": "launch",
+            "mainClass": "소수찾기",
+            "projectName": "백준_95560f55"
+        },
+        {
+            "type": "java",
+            "name": "Launch 숫자의합",
+            "request": "launch",
+            "mainClass": "숫자의합",
+            "projectName": "백준_95560f55"
+        },
+        {
+            "type": "java",
+            "name": "Launch 열개씩끊어출력",
+            "request": "launch",
+            "mainClass": "열개씩끊어출력",
+            "projectName": "백준_95560f55"
+        },
+        {
+            "type": "java",
+            "name": "Launch 최소최대",
+            "request": "launch",
+            "mainClass": "최소최대",
+            "projectName": "백준_95560f55"
+        },
+        {
+            "type": "java",
+            "name": "Launch 최소최대_버퍼",
+            "request": "launch",
+            "mainClass": "최소최대_버퍼",
+            "projectName": "백준_95560f55"
+        },
+        {
+            "type": "java",
+            "name": "Launch 프린터큐",
+            "request": "launch",
+            "mainClass": "프린터큐",
+            "projectName": "백준_95560f55"
+        },
+        {
+            "type": "java",
+            "name": "Launch 합",
+            "request": "launch",
+            "mainClass": "합",
+            "projectName": "백준_95560f55"
+        }
+    ]
+}
