@@ -1,22 +1,15 @@
 class Solution {
     public String solution(String s) {
         String answer = "";
-        if(s.length() == 0) return answer;
-        
-        s = s.toLowerCase();
-        answer += Character.toUpperCase(s.charAt(0));
-        
-        for (int i = 1; i < s.length(); i++) {
-            if(s.charAt(i) == ' ') {
-                answer += " ";
-            }
-            else if(s.charAt(i-1) == ' ') {
-                answer += Character.toUpperCase(s.charAt(i));
-            }
-            else {
-                answer += s.charAt(i);
-            }
+        String[] arr = s.toLowerCase().split("");
+
+        boolean flag = true;
+
+        for (String word : arr) {
+            answer += flag ? word.toUpperCase() : word; // flag true면 대문자로
+            flag = word.equals(" ") ? true : false; // " " 이면 다음 문자 대문자로 하기 위해
         }
+
         return answer;
     }
 }
