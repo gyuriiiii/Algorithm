@@ -33,7 +33,7 @@ public class Main {
             for(int j=0; j<N; j++) {
                 if(arr[i][j] == 1 && !check[i][j]) {
                     apartNum++;
-                    bfs(i, j);
+                    dfs(i, j);
                 }
             }
         }
@@ -47,31 +47,19 @@ public class Main {
         }
     }
 
-    private static void bfs(int a, int b) {
-        Queue<int[]> queue = new LinkedList<>();
-
-        queue.add(new int[] { a, b }); // 큐에 추가
+    private static void dfs(int a, int b) {
         check[a][b] = true; // 방문 여부 표시
         apart[apartNum]++;
 
-        while (!queue.isEmpty()) {          
-            int[] k = queue.poll();
-            int kx = k[0];
-            int ky = k[1];
+        for (int i = 0; i < 4; i++) {
+            int curx = a + dx[i];
+            int cury = b + dy[i];
 
-            for (int i = 0; i < 4; i++) {
-                int curx = kx + dx[i];
-                int cury = ky + dy[i];
+            if (curx < 0 || cury < 0 || curx >= N || cury >= N)
+                continue;
 
-                if (curx < 0 || cury < 0 || curx >= N || cury >= N)
-                    continue;
-
-                if (arr[curx][cury] == 0 || check[curx][cury] == true)
-                    continue;
-
-                queue.add(new int[] {curx, cury});
-                check[curx][cury] = true;
-                apart[apartNum]++;
+            if (arr[curx][cury] == 1 && !check[curx][cury]) {
+                dfs(curx, cury);
             }
         }
     }
