@@ -1,5 +1,3 @@
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.Scanner;
 
 public class Main {
@@ -31,6 +29,7 @@ public class Main {
 
                 arr[i][j] = c;
 
+                // 적록색약인 경우 R을 G로 바꿔서 저장
                 if (c == 'R') {
                     arr2[i][j] = 'G';
                     continue;
@@ -42,7 +41,7 @@ public class Main {
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 if (!check[i][j]) {
-                    bfs(arr, i, j);
+                    dfs(arr, i, j);
                     cnt++;
                 }
             }
@@ -54,7 +53,7 @@ public class Main {
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 if (!check[i][j]) {
-                    bfs(arr2, i, j);
+                    dfs(arr2, i, j);
                     cnt++;
                 }
             }
@@ -63,28 +62,20 @@ public class Main {
         System.out.println(sb);
     }
 
-    private static void bfs(char[][] arr, int i, int j) {
-        Queue<int[]> queue = new LinkedList<>();
-        queue.add(new int[] { i, j });
+    private static void dfs(char[][] arr, int i, int j) {
         check[i][j] = true;
 
-        while (!queue.isEmpty()) {
-            int q[] = queue.poll();
+        for (int k = 0; k < 4; k++) {
+            int curx = i + dx[k];
+            int cury = j + dy[k];
 
-            int qx = q[0];
-            int qy = q[1];
+            if (curx < 0 || cury < 0 || curx >= N || cury >= N) {
+                continue;
+            }
 
-            for (int k = 0; k < 4; k++) {
-                int curx = qx + dx[k];
-                int cury = qy + dy[k];
-
-                if (curx < 0 || cury < 0 || curx >= N || cury >= N) {
-                    continue;
-                }
-
-                if (!check[curx][cury] && arr[qx][qy] == arr[curx][cury]) {
-                    bfs(arr, curx, cury);
-                }
+            if (!check[curx][cury] && arr[i][j] == arr[curx][cury]) {
+                dfs(arr, curx, cury);
+                check[curx][cury] = true;
             }
         }
     }
