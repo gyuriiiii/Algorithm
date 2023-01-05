@@ -15,10 +15,9 @@ public class Main {
             int n = sc.nextInt(); // 배열에 들어있는 수의 개수
 
             String x = sc.next(); // 배열에 들어있는 정수
-            String xArr = x.substring(1, x.length() - 1); // [] 제거
 
-            // , 기준으로 분리해 deque에 넣기
-            StringTokenizer st = new StringTokenizer(xArr, ",");
+            // 분리해 숫자만 deque에 넣기
+            StringTokenizer st = new StringTokenizer(x, "[],");
             for (int j = 0; j < n; j++) {
                 dq.offer(Integer.parseInt(st.nextToken()));
             }
@@ -73,6 +72,7 @@ public class Main {
         if (dq.isEmpty()) {
             System.out.println("[]");
         } 
+        
         else {
             if (flag) {
                 int size = dq.size();
