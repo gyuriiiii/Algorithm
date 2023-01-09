@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
@@ -20,32 +19,16 @@ public class Main {
             queue.add(i);
         }
 
-        ArrayList<Integer> list = new ArrayList<>();
-
-        int idx = 1;
-        while (!queue.isEmpty()) {
-            for (int i = 0; i < queue.size(); i++) {
-                if (idx % K == 0) {
-                    int q = queue.peek();
-                    list.add(q);
-                    queue.poll();
-                } else {
-                    int q = queue.peek();
-                    queue.offer(q);
-                    queue.poll();
-                }
-                idx++;
-            }
-        }
-
         StringBuilder sb = new StringBuilder("<");
-        for (int i = 0; i < list.size(); i++) {
-            if (i == list.size() - 1) {
-                sb.append(list.get(i) + ">");
-                continue;
+        while(queue.size() > 1) {
+            for(int i=1; i<K; i++) {
+                int p = queue.poll();
+                queue.offer(p);
             }
-            sb.append(list.get(i) + ", ");
+            sb.append(queue.poll() + ", ");
         }
+        sb.append(queue.poll() + ">");
+
         System.out.println(sb);
     }
 }
