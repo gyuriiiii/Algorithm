@@ -1,7 +1,7 @@
 import java.math.BigInteger;
 
-class Solution {
-    static public BigInteger solution(int n) {
+public class Solution {
+   static public BigInteger solution(int n) {
         BigInteger[] arr = new BigInteger[100001];
 
         arr[0] = BigInteger.valueOf(0);
