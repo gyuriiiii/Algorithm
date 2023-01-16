@@ -10,31 +10,12 @@ public class Main {
         int N = sc.nextInt();
         int cnt = 0;
 
-        if (N < 10) {
-            num = 0 + "" + N;
-        } 
-        else {
-            num = Integer.toString(N);
-        }
-
-        newNum = num;
+        int result = N;
         while (true) {
+            result = (result % 10) * 10 + (result / 10 + result % 10) % 10;
             cnt++;
 
-            // 주어진 수 각 자리 수와
-            // 각 자리 수 합 구하기
-            int left = Integer.parseInt(newNum.charAt(0) + "");
-            int right =Integer.parseInt(newNum.charAt(1) + ""); 
-            int add = left + right;
-
-            if(add < 10) {
-                newNum = right + "" + add;
-            }
-            else {
-                newNum = right + "" + (add-10);
-            }
-
-            if(Integer.parseInt(newNum) == N) {
+            if (result == N) {
                 break;
             }
         }
