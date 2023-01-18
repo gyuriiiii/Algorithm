@@ -2,7 +2,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
-    static long answer; // 배정된 예산 중 가장 큰 값
+    static int answer; // 배정된 예산 중 가장 큰 값
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
@@ -16,11 +16,11 @@ public class Main {
 
         long total = sc.nextLong();
 
-        long low = 0;
-        long high = arr[N-1];
+        int low = 0;
+        int high = arr[N-1];
 
         while (low <= high) {
-            long mid = (low + high) / 2;
+            int mid = (low + high) / 2;
             long sum = 0;
             
             for(int i=0; i<N; i++) {
