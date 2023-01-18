@@ -14,14 +14,14 @@ public class Main {
         }
         Arrays.sort(arr);
 
-        long total = sc.nextLong();
+        int total = sc.nextInt();
 
         int low = 0;
         int high = arr[N-1];
 
         while (low <= high) {
             int mid = (low + high) / 2;
-            long sum = 0;
+            int sum = 0;
             
             for(int i=0; i<N; i++) {
                 if (arr[i] < mid) { // 상한액보다 작은 경우
