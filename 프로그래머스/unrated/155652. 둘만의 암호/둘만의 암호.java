@@ -1,30 +1,21 @@
 class Solution {
-    static char next;
-    
-    static public String solution(String s, String skip, int index) {
+    public String solution(String s, String skip, int index) {
         String answer = "";
 
         for (int i = 0; i < s.length(); i++) {
             char word = s.charAt(i);
 
+            char tmp = word;
             int idx = 0;
-            int j = 0;
 
-            while (idx != index) {
-                next = (char) ((int) word + ++j);
-                if(next == '{') {
-                    next = 'a';
-                    word = 'a';
-                    j = 0;
-                }
+            while (idx < index) {
+                tmp = tmp == 'z' ? 'a' : (char) (tmp + 1);
 
-                if (skip.contains(next + "")) {
-                    continue;
+                if (!skip.contains(tmp + "")) {
+                    idx++;
                 }
-                idx++;
             }
-
-            answer += next;
+            answer += tmp;
         }
 
         return answer;
