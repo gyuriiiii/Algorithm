@@ -15,10 +15,11 @@ public class Main {
         arr = new int[M];
         check = new boolean[N + 1];
 
-        dfs(0);
+        dfs(1, 0);
     }
 
-    private static void dfs(int depth) {
+    // at 부터만 탐색
+    private static void dfs(int at, int depth) {
         if (depth == M) {
             for (int i = 0; i < M; i++) {
                 System.out.print(arr[i] + " ");
@@ -27,25 +28,13 @@ public class Main {
             return;
         }
 
-        for (int i = 1; i <= N; i++) {
+        for (int i = at; i <= N; i++) {
             if (!check[i]) { // 방문하지 않았다면
-                if (depth == 0) {
-                    check[i] = true;
-                    arr[depth] = i;
-                    dfs(depth + 1);
+                check[i] = true;
+                arr[depth] = i;
+                dfs(i + 1, depth + 1);
 
-                    check[i] = false;
-                }
-
-                else {
-                    if (arr[depth - 1] < i) {
-                        check[i] = true;
-                        arr[depth] = i;
-                        dfs(depth + 1);
-
-                        check[i] = false;
-                    }
-                }
+                check[i] = false;
             }
         }
     }
