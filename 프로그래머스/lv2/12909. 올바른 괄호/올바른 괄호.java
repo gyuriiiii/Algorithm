@@ -3,8 +3,6 @@ import java.util.Queue;
 
 class Solution {
      boolean solution(String s) {
-        boolean flag = true;
-        
         Queue<Character> queue = new LinkedList<>();
         for(int i=0; i<s.length(); i++) {
             char c = s.charAt(i);
@@ -14,15 +12,14 @@ class Solution {
             }
             if(c == ')') {
                 if(queue.isEmpty()) {
-                    flag = false;
-                    break;
+                    return false;
                 }
                 queue.poll();
             }
         }
 
-        if(!queue.isEmpty()) flag = false;
+        if(!queue.isEmpty()) return false;
 
-        return flag;
+        return true;
     }
 }
