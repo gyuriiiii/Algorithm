@@ -4,37 +4,32 @@ import java.util.HashMap;
 class Solution {
     static HashMap<Character, Character> map = new HashMap<>();
     
-    static public int solution(String s) {
+        public int solution(String s) {
         int answer = 0;
 
         map.put('(', ')');
         map.put('[', ']');
         map.put('{', '}');
 
+        String newS = s;
         for (int i = 0; i < s.length(); i++) {
-            ArrayDeque<Character> originDeque = new ArrayDeque<>();
-            for (int j = 0; j < s.length(); j++) {
-                originDeque.offerLast(s.charAt(j));
-            }
-            
-            for (int k = 0; k < i; k++) {
-                originDeque.offerLast(originDeque.pollFirst());
-            }
-            
-            if (check(originDeque)) {
+            if (check(newS)) {
                 answer++;
             }
+            
+            newS = newS.substring(1, s.length()) + newS.charAt(0);
         }
+
+        System.out.println(answer);
         return answer;
     }
 
     // 올바른 괄호인 지 검사
-    private static boolean check(ArrayDeque<Character> originDeque) {
+    private static boolean check(String s) {
         ArrayDeque<Character> deque = new ArrayDeque<>();
-
-        int size = originDeque.size();
-        for (int i = 0; i < size; i++) {
-            char c = originDeque.pollFirst();
+        
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
 
             if (map.containsKey(c)) {
                 deque.offerLast(c);
