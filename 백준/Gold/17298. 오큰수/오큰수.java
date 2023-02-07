@@ -3,14 +3,13 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.Stack;
+import java.util.ArrayDeque;
 import java.util.StringTokenizer;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-
         int N = Integer.parseInt(br.readLine());
 
         int[] arr = new int[N];
@@ -20,18 +19,17 @@ public class Main {
             arr[i] = Integer.parseInt(st.nextToken());
         }
 
-        Stack<Integer> stack = new Stack<>();
+        ArrayDeque<Integer> stack = new ArrayDeque<>();
 
         int[] answer = new int[N];
-
         for (int i = 0; i < N; i++) {
-            while (!stack.isEmpty() && arr[i] >= stack.peek()) {
-                stack.pop();
+            while (!stack.isEmpty() && arr[i] >= stack.peekLast()) {
+                stack.pollLast();
             }
 
-            answer[i] = stack.isEmpty()? -1 : stack.peek();
+            answer[i] = stack.isEmpty()? -1 : stack.peekLast();
 
-            stack.push(arr[i]);
+            stack.addLast(arr[i]);
         }
 
         for (int i = N - 1; i >= 0; i--) {
