@@ -1,26 +1,24 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder();
+    public static void main(String[] args) throws NumberFormatException, IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        int n = Integer.parseInt(bf.readLine());
+        int N = Integer.parseInt(br.readLine());
+        int[] arr = new int[N];
 
-        ArrayList<Integer> list = new ArrayList<>();
-        for(int i=0; i<n; i++) {
-            list.add(Integer.parseInt(bf.readLine()));
+        for (int i = 0; i < N; i++) {
+            arr[i] = Integer.parseInt(br.readLine());
         }
-        Collections.sort(list);
-
-        for (Integer i : list) {
-            sb.append(i + "\n");
+        Arrays.sort(arr);
+         
+        StringBuilder sb = new StringBuilder();
+        for (int i : arr) {
+            sb.append(i).append("\n");
         }
         System.out.println(sb);
-    }
-    
+    }   
 }
