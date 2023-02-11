@@ -1,9 +1,6 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
-import java.util.StringTokenizer;
+import java.util.Scanner;
 
 public class Main {
     static int N;
@@ -14,26 +11,25 @@ public class Main {
     static boolean[] check;
 
     static LinkedHashSet<String> set = new LinkedHashSet<>();
+    static StringBuilder sb2 = new StringBuilder();
 
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
 
-        N = Integer.parseInt(st.nextToken());
-        M = Integer.parseInt(st.nextToken());
+        N = sc.nextInt();
+        M = sc.nextInt();
 
         arr = new int[N];
         print = new int[M];
         check = new boolean[N];
-        
-        st = new StringTokenizer(br.readLine(), " ");
-        for (int i = 0; i < N; i++) { 
-            arr[i] = Integer.parseInt(st.nextToken());
+
+        for (int i = 0; i < N; i++) {
+            arr[i] = sc.nextInt();
         }
         Arrays.sort(arr);
 
-        dfs(0); 
-        set.forEach(System.out::println);
+        dfs(0);
+        System.out.println(sb2);
     }
 
     private static void dfs(int depth) {
@@ -42,7 +38,11 @@ public class Main {
             for (int i = 0; i < M; i++) {
                 sb.append(print[i]).append(" ");
             }
-            set.add(sb.toString());
+
+            if(!set.contains(sb.toString())) {
+                sb2.append(sb.toString()).append("\n");
+                set.add(sb.toString());
+            }
 
             return;
         }
