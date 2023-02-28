@@ -7,19 +7,21 @@ class Solution {
 
         HashMap<String, ArrayList> map = new HashMap<>();
         for (int i = 0; i < report.length; i++) {
-            int idx = report[i].indexOf(" ");
+            String reporter = report[i].split(" ")[0];
+            String reportered = report[i].split(" ")[1];
 
-            if (map.containsKey(report[i].substring(idx + 1, report[i].length()))) { 
-                ArrayList<String> list = map.get(report[i].substring(idx + 1, report[i].length()));
-                if (list.contains(report[i].substring(0, idx))) {
+            if (map.containsKey(reportered)) { // 이미 존재하는 경우
+                ArrayList<String> list = map.get(reportered);
+                if (list.contains(reporter)) {
                     continue;
                 }
-                list.add(report[i].substring(0, idx));
-                map.put(report[i].substring(idx + 1, report[i].length()), list);
-            } else {
+                list.add(reporter);
+                map.put(reportered, list);
+            } 
+            else {
                 ArrayList<String> list = new ArrayList<>();
-                list.add(report[i].substring(0, idx));
-                map.put(report[i].substring(idx + 1, report[i].length()), list);
+                list.add(reporter);
+                map.put(reportered, list);
             }
         }
 
