@@ -3,38 +3,37 @@ import java.util.PriorityQueue;
 
 public class Solution {
     public int solution(int n, int k, int[] enemy) {
-        int result = 0;
+        // PriorityQueue = 기본이 min heap (작은 숫자부터 꺼내짐)
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
 
-        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder()); // max heap
+        int cnt = 0; // 라운드 수
 
-        for (int i = 0; i < enemy.length; i++) {
-            int e = enemy[i];
-            // 무적권 사용하는 경우
-            // 무적권 남아있고 병사 수보다 적군 수가 많은 경우
-            if(k > 0 && n < e) {
-                k--;
-                pq.add(e);
-                n = n + pq.poll() - e;
-                result++;
-            } 
+        for (int e : enemy) {
+            // 무적권 사용하는  경우
+            // 남은 병사보다 적군 수가 더 많은 경우
+            if (k > 0 && n < e) {
+                pq.add(e); // 큐에 넣기
+                n += pq.poll(); // 가장 큰 수는 빼서 무적권 사용하기 (회복)
+                n -= e; // 들어온 숫자 병사에서 빼기
+                k--; // 무적권 -1
+                cnt++;
+            }
 
-            // 무적권 사용하지 않는 경우
+            // 무적권 없는 경우
             else {
-                // 무적권은 없지만
-                // 병사 수가 적군 수보다 많은 경우
-                if(n >= e) {
-                    n -= e;
+                // 남아있는 병사가 더 많은 경우
+                if (n >= e) {
                     pq.add(e);
-                    result++;
+                    n -= e;
+                    cnt++;
                 }
 
-                // 병사 수도 적군 수보다 적고
-                // 무적권도 없는 경우
+                // 남아있는 병사가 더 적은 경우
                 else {
                     break;
                 }
             }
         }
-        return result;
+        return cnt;
     }
 }
