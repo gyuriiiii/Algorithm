@@ -27,7 +27,6 @@ public class Main {
         while (low <= high) {
             int mid = (low + high) / 2;
 
-            // mid 거리로 공유기 C개를 다 설치할 수 있는 지 검사
             if (check(mid)) {
                 low = mid + 1;
                 result = mid;
@@ -42,17 +41,12 @@ public class Main {
     private static boolean check(int mid) {
         int cnt = 1;
 
-        int idx = 1;
-        for (int i = idx - 1; i < N; i++) {
-            while (idx < N && idx > i) {
-                if (home[idx] - home[i] >= mid) {
-                    cnt++;
-                    idx++;
-                    i = idx - 1;
-                }
-                else {
-                    idx++;
-                }
+        int locate = 0;
+
+        for (int i = 1; i < N; i++) {
+            if(home[i] - home[locate] >= mid) {
+                cnt++;
+                locate = i;
             }
         }
 
