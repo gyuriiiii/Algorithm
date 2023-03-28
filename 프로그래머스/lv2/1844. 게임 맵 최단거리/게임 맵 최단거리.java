@@ -1,55 +1,53 @@
 import java.util.ArrayDeque;
 
-class Solution {
-    private static class Node {
-        int x, y; 
+public class Solution {
+    static int[] dx = { -1, 1, 0, 0 };
+    static int[] dy = { 0, 0, -1, 1 };
 
-        public Node(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-    }
-
-    static final int[] dx = { -1, 1, 0, 0 };
-    static final int[] dy = { 0, 0, -1, 1 };
-
-    static public int solution(int[][] maps) {
+    public int solution(int[][] maps) {
         int n = maps.length;
         int m = maps[0].length;
 
-        boolean [][] visited = new boolean[n][m];
-        int [][] distance = new int[n][m];
+        boolean[][] visited = new boolean[n][m];
+        int[][] result = new int[n][m];
         
-        ArrayDeque<Node> queue = new ArrayDeque<>();
-        queue.addLast(new Node(0, 0));
         visited[0][0] = true;
+        result[0][0] = 1;
+        
+        ArrayDeque<int[]> dq = new ArrayDeque<>();
+        dq.add(new int[] { 0, 0 });
 
-        while (!queue.isEmpty()) {
-            Node now = queue.pollFirst(); // 현재 위치한 정점
+        while (!dq.isEmpty()) {
+            int[] current = dq.poll();
+            int curx = current[0];
+            int cury = current[1];
 
-            for (int k = 0; k < 4; k++) {
-                int nextX = now.x + dx[k];
-                int nextY = now.y + dy[k];
+            for (int i = 0; i < 4; i++) {
+                int nextx = curx + dx[i];
+                int nexty = cury + dy[i];
 
-                // 맵 밖으로 나가는 경우 예외처리
-                if (nextX < 0 || nextY < 0 || nextX >= n || nextY >= m) {
+                // map 벗어난 경우
+                if (nextx < 0 || nexty < 0 || nextx >= n || nexty >= m) {
                     continue;
                 }
 
-                // 벽(0)이라서 못 가는 경우
-                if (maps[nextX][nextY] == 0) {
+                // 이미 방문한 경우
+                if (visited[nextx][nexty]) {
                     continue;
                 }
 
-                // 아직 방문하지 않은 경우
-                if (!visited[nextX][nextY]) {
-                    visited[nextX][nextY] = true; // 방문 처리
-                    queue.addLast(new Node(nextX, nextY)); // 큐에 넣기
+                // 벽인 경우
+                if (maps[nextx][nexty] == 0) {
+                    continue;
+                }
 
-                    distance[nextX][nextY] = distance[now.x][now.y] + 1; // 최단거리 update
+                else {
+                    visited[nextx][nexty] = true; // 방문 표시
+                    dq.add(new int[] { nextx, nexty });
+                    result[nextx][nexty] = result[curx][cury] + 1;
                 }
             }
         }
-        return distance[n - 1][m - 1] == 0 ? -1 : distance[n - 1][m - 1] + 1;
+        return result[n-1][m-1] == 0 ? -1 : result[n-1][m-1];
     }
 }
