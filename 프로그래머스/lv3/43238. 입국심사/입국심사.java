@@ -1,35 +1,40 @@
 public class Solution {
     static final int MAX = 1_000_000_000;
-    static int[] time;
     static int N;
+    static int[] time;
 
-    static public long solution(int n, int[] times) {
+    public long solution(int n, int[] times) {
+        long answer = 0;
+
         N = n;
         time = times;
 
-        long start = 1;
-        long end = (long) MAX * MAX;
-        
-        while (start < end) { 
-            long mid = (start + end) / 2;
+        // 걸리는 시간의 범위
+        long low = 1;
+        long high = (long) MAX * MAX;
 
-            if (isPossible(mid)) {
-                end = mid;
+        while (low <= high) {
+            long mid = (low + high) / 2;
+
+            // mid 시간 안에 n명의 사람 심사 받을 수 있는 지 확인
+            if (check(mid)) {
+                high = mid - 1;
+                answer = mid;
             } 
             else {
-                start = mid + 1;
+                low = mid + 1;
             }
         }
-        return start;
+        return answer;
     }
 
-    private static boolean isPossible(long mid) {
-        long n = N;
+    private static boolean check(long mid) {
+        long cnt = 0;
 
-        for (int t : time) { 
-            n -= mid / t;
+        for (int i : time) {
+            cnt += (mid / i);
         }
 
-        return n <= 0;
+        return cnt >= N;
     }
 }
