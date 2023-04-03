@@ -61,7 +61,7 @@ public class Main {
                 if (nextx < 1 || nextx > N) {
                     if (nextx < 1) {
                         nextx = N - nextx;
-                    }
+                    } 
                     else {
                         nextx = nextx - N;
                     }
@@ -70,73 +70,52 @@ public class Main {
                 if (nexty < 1 || nexty > N) {
                     if (nexty < 1) {
                         nexty = N - nexty;
-                    }
+                    } 
                     else {
                         nexty = nexty - N;
                     }
                 }
-
                 cloud.addLast(new int[]{nextx, nexty}); // 구름 위치 이동
                 cloud.pollFirst(); // 기존 구름 제거
             }
         }
 
-        // 구름 있던 곳 표시
+        // 구름 있는 칸 바구니에 저장된 물 + 1
         int size = cloud.size();
         for (int i = 0; i < size; i++) {
-            visited[cloud.peekFirst()[0]][cloud.peekFirst()[1]] = true;
+            int cx = cloud.peekFirst()[0];
+            int cy = cloud.peekFirst()[1];
             cloud.addLast(cloud.pollFirst());
-        }
 
-        // 구름 위치 복사
-        ArrayDeque<int[]> cloudTmp = new ArrayDeque<>(); // 구름 위치 큐
-        int cloudSize = cloud.size();
-        for (int i = 0; i < cloudSize; i++) {
-            cloudTmp.add(cloud.peekFirst());
-            cloud.addLast(cloud.pollFirst());
-        }
-
-        // 구름 있는 칸 바구니에 저장된 물 + 1
-        while (!cloudTmp.isEmpty()) {
-            int cx = cloudTmp.peekFirst()[0];
-            int cy = cloudTmp.peekFirst()[1];
-            cloudTmp.pollFirst();
-
+            visited[cx][cy] = true; // 구름 위치 표시
             map[cx][cy] += 1;
         }
 
         copyWater();
-
-        ArrayDeque<int[]> cloudTmp2 = new ArrayDeque<>(); // 구름 위치 
+        cloud.clear();
 
         // 구름 있었던 칸 제외한 나머지 칸 중 물 양 2 이상인 곳 구름 생김
         // 구름 생기면 물 양 -2
         for (int i = 1; i <= N; i++) {
             for (int j = 1; j <= N; j++) {
                 // 구름 있던 칸 제외한 칸
-                if (map[i][j] >= 2) {
-                    if (!visited[i][j]) {
+                if (!visited[i][j]) {
+                    if (map[i][j] >= 2) {
                         // 구름 생김
-                        cloudTmp2.add(new int[]{i, j});
-
+                        cloud.add(new int[]{i, j});
                         // 물 양 -2
                         map[i][j] -= 2;
                     }
                 }
             }
         }
-        cloud.clear();
-
-        while (!cloudTmp2.isEmpty()) {
-            cloud.add(cloudTmp2.pollFirst());
-        }
     }
 
     // 물복사버그 - 대각선 방향으로 거리가 1인 칸에 물 있는 바구니 수만큼 (r,c)에 있는 바구니 물 양 증가
     private static void copyWater() {
-        int cloudSize = cloud.size();
+        int size = cloud.size();
 
-        for (int i = 0; i < cloudSize; i++) {
+        for (int i = 0; i < size; i++) {
             int cnt = 0; // 바구니 개수
 
             int cloudx = cloud.peekFirst()[0];
@@ -144,19 +123,17 @@ public class Main {
 
             // 대각선 방향 물 있는 바구니 개수
             for (int j = 2; j <= 8; j += 2) {
-                if (cloudx + dx[j] < 1 || cloudx + dx[j] > N || cloudy + dy[j] < 1 || cloudy + dy[j] > N) {
+                // 경계 넘어간 경우
+                if (cloudx + dx[j] < 1 || cloudy + dy[j] < 1 || cloudx + dx[j] > N || cloudy + dy[j] > N) {
                     continue;
                 }
-
                 if (map[cloudx + dx[j]][cloudy + dy[j]] > 0) {
                     cnt++;
                 }
-                ;
             }
 
             // 물 있는 바구니 수만큼 해당 바구니 물 양 증가
             map[cloudx][cloudy] += cnt;
-
             cloud.addLast(cloud.pollFirst());
         }
     }
