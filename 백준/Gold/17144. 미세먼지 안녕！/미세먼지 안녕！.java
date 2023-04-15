@@ -10,6 +10,7 @@ public class Main {
     static int[] dy = new int[]{0, 0, -1, 1};
 
     static ArrayDeque<int[]> dusts = new ArrayDeque<>(); // 미세먼지 위치
+    static ArrayList<int[]> airCleaner = new ArrayList<>(); // 공기청정기 위치
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -19,8 +20,6 @@ public class Main {
         T = sc.nextInt();
 
         map = new int[R + 1][C + 1];
-
-        ArrayList<int[]> airCleaner = new ArrayList<>();
 
         for (int i = 1; i < R + 1; i++) {
             for (int j = 1; j < C + 1; j++) {
@@ -32,11 +31,8 @@ public class Main {
             }
         }
 
-        // 위쪽, 아래쪽 공기청정기 위치
-        int[] up = airCleaner.get(0);
-        int[] down = airCleaner.get(1);
-
         for (int i = 0; i < T; i++) {
+            // 미세먼지 위치 확인
             for (int j = 1; j < R + 1; j++) {
                 for (int k = 1; k < C + 1; k++) {
                     if (map[j][k] > 0) {
@@ -48,7 +44,7 @@ public class Main {
             // 미세먼지 확산
             dustSpread(dusts);
             // 공기청정기 작동
-            cleanAir(up, down);
+            cleanAir();
         }
 
         int sum = 0; // 구사과 방에 남아있는 미세먼지 양
@@ -63,9 +59,7 @@ public class Main {
     }
 
     private static void dustSpread(ArrayDeque<int[]> dusts) {
-        int size = dusts.size();
-
-        for (int i = 0; i < size; i++) {
+        while (!dusts.isEmpty()) {
             int[] dust = dusts.poll();
 
             int dustx = dust[0];
@@ -95,83 +89,39 @@ public class Main {
         }
     }
 
-    private static void cleanAir(int[] up, int[] down) {
-        // 위쪽 공기청정기 작동
-        ArrayDeque<Integer> left = new ArrayDeque<>();
-        ArrayDeque<ArrayDeque<Integer>> mid = new ArrayDeque<>();
-        ArrayDeque<Integer> right = new ArrayDeque<>();
+    private static void cleanAir() {
+        // 윗쪽 공기청정기 작동
+        int up = airCleaner.get(0)[0];  
 
-        for (int i = 1; i <= up[0]; i++) {
-            left.add(map[i][1]);
-
-            ArrayDeque<Integer> midQueue = new ArrayDeque<>();
-            for (int j = 2; j < C; j++) {
-                midQueue.add(map[i][j]);
-            }
-            mid.add(midQueue);
-
-            right.add(map[i][C]);
+        for (int i = up - 1; i > 1; i--) { // 아래로
+            map[i][1] = map[i - 1][1];
         }
-
-        mid.peekLast().addFirst(left.pollLast());
-        right.addLast(mid.peekLast().pollLast());
-        mid.peekFirst().addLast(right.pollFirst());
-        left.addFirst(mid.peekFirst().pollFirst());
-
-        // map 변경
-        for (int i = 1; i <= up[0]; i++) {
-            map[i][1] = left.pollFirst();
-
-            ArrayDeque<Integer> dq = mid.pollFirst();
-            while (!dq.isEmpty()) {
-                for (int j = 2; j < C; j++) {
-                    map[i][j] = dq.pollFirst();
-                }
-            }
-
-            map[i][C] = right.pollFirst();
+        for (int i = 1; i < C; i++) { // <-
+            map[1][i] = map[1][i + 1];
         }
-
-        map[up[0]][1] = -1;
-        map[up[0]][2] = 0;
+        for (int i = 1; i < up; i++) { // 위로
+            map[i][C] = map[i + 1][C];
+        }
+        for (int i = C; i > 2; i--) { // ->
+            map[up][i] = map[up][i - 1];
+        }
+        map[up][2] = 0; // 공기청정기 쪽은 미세먼지 X
 
         // 아래쪽 공기청정기 작동
-        left = new ArrayDeque<>();
-        mid = new ArrayDeque<>();
-        right = new ArrayDeque<>();
+        int down = airCleaner.get(1)[0];
 
-        for (int i = down[0]; i <= R; i++) {
-            left.add(map[i][1]);
-
-            ArrayDeque<Integer> midQueue = new ArrayDeque<>();
-            for (int j = 2; j < C; j++) {
-                midQueue.add(map[i][j]);
-            }
-            mid.add(midQueue);
-
-            right.add(map[i][C]);
+        for (int i = down + 1; i < R; i++) { // 위로
+            map[i][1] = map[i + 1][1];
         }
-
-        mid.peekFirst().addFirst(left.pollFirst());
-        right.addFirst(mid.peekFirst().pollLast());
-        mid.peekLast().addLast(right.pollLast());
-        left.addLast(mid.peekLast().pollFirst());
-
-        // map 변경
-        for (int i = down[0]; i <= R; i++) {
-            map[i][1] = left.pollFirst();
-
-            ArrayDeque<Integer> dq = mid.pollFirst();
-            while (!dq.isEmpty()) {
-                for (int j = 2; j < C; j++) {
-                    map[i][j] = dq.pollFirst();
-                }
-            }
-
-            map[i][C] = right.pollFirst();
+        for (int i = 1; i < C; i++) { // <-
+            map[R][i] = map[R][i + 1];
         }
-
-        map[down[0]][1] = -1;
-        map[down[0]][2] = 0;
+        for (int i = R; i > down; i--) { // 아래로
+            map[i][C] = map[i - 1][C];
+        }
+        for (int i = C; i > 2; i--) { // ->
+            map[down][i] = map[down][i - 1];
+        }
+        map[down][2] = 0;
     }
 }
