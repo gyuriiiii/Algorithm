@@ -46,22 +46,14 @@ public class Main {
             // 위에 있는 뿌요들 아래로 이동
             for (int i = 11; i > 0; i--) {
                 for (int j = 0; j < 6; j++) {
-                    int idx = i - 1;
-
                     if (map[i][j] == ' ') {
-                        while (true) {
-                            if(idx <= 0) {
+                        for (int k = i - 1; k >= 0; k--) {
+                            if (map[k][j] != ' ') {
+                                map[i][j] = map[k][j];
+                                map[k][j] = ' ';
                                 break;
                             }
-
-                            if (map[idx][j] != ' ') {
-                                break;
-                            }
-                            idx--;
                         }
-
-                        map[i][j] = map[idx][j];
-                        map[idx][j] = ' ';
                     }
                 }
             }
