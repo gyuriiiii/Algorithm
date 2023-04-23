@@ -39,32 +39,13 @@ public class Main {
 
         @Override
         public int compare(String s1, String s2) {
-            if (wordsMap.get(s1) < wordsMap.get(s2)) {
-                return 1;
-            }
-            else if (wordsMap.get(s1) > wordsMap.get(s2)) {
-                return -1;
-            }
-            else {
-                // 길이 긴 순으로 정렬
-                if (s1.length() < s2.length()) {
-                    return 1;
+            if(wordsMap.get(s1) == wordsMap.get(s2)) {
+                if(s1.length() == s2.length()) {
+                    return s1.compareTo(s2);
                 }
-                else if (s1.length() > s2.length()) {
-                    return -1;
-                }
-                // 길이 같은 경우
-                else if (s1.length() == s2.length()) {
-                    // 알파벳 사전 순으로 앞에 있는 단어부터 정렬
-                    if (s1.compareTo(s2) > 0) {
-                        return 1;
-                    }
-                    else if (s1.compareTo(s2) < 0) {
-                        return -1;
-                    }
-                }
+                return s2.length() - s1.length();
             }
-            return 0;
+            return wordsMap.get(s2) - wordsMap.get(s1);
         }
     }
 }
