@@ -17,28 +17,24 @@ public class Main {
         Arrays.sort(num);
 
         int left = 0;
-        int right = 1;
+        int right = num.length - 1;
 
         int answer = 0;
 
-        while (right < num.length) {
-            while (right < num.length) {
-                int sum = num[left] + num[right];
-                if (sum < M) {
-                    right++;
-                }
-                else if (sum == M) {
-                    answer++;
-                    left++;
-                    right = left + 1;
-                }
-                else if(sum > M) {
-                    left++;
-                    right = left + 1;
-                }
+        while (left < right) {
+            int sum = num[left] + num[right];
+
+            if (sum == M) {
+                answer++;
+                left++;
+                right--;
             }
-            left++;
-            right = left + 1;
+            else if (sum < M) {
+                left++;
+            }
+            else if (sum > M) {
+                right--;
+            }
         }
         System.out.println(answer);
     }
