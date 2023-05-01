@@ -17,8 +17,8 @@ public class Main {
         U = sc.nextInt();
         D = sc.nextInt();
 
-        cnt = new int[1000001];
-        visited = new boolean[1000001];
+        cnt = new int[F + 1];
+        visited = new boolean[F + 1];
 
         if (S > G && D == 0) {
             System.out.println("use the stairs");
