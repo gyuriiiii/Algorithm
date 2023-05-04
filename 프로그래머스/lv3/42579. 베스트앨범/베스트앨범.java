@@ -16,35 +16,36 @@ public class Solution {
         }
 
         /* 베스트 앨범에 실릴 장르 순서 */
-        ArrayList<Map.Entry<String, Integer>> genreOrder = new ArrayList<>(genreNum.entrySet());
-        genreOrder.sort(new Comparator<Map.Entry<String, Integer>>() {
+        ArrayList<String> genreOrder = new ArrayList<>(genreNum.keySet());
+        genreOrder.sort(new Comparator<String>() {
             @Override
-            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
-                return o2.getValue() - o1.getValue();
+            public int compare(String o1, String o2) {
+                return genreNum.get(o2) - genreNum.get(o1);
             }
         });
 
         /* 장르별 노래와 재생횟수 */
         HashMap<String, ArrayList<Song>> genreSong = new HashMap<>();
         for (int i = 0; i < plays.length; i++) {
+            ArrayList list;
             if (genreSong.containsKey(genres[i])) {
-                ArrayList list = genreSong.get(genres[i]);
-                list.add(new Song(i, plays[i]));
-                genreSong.put(genres[i], list);
+                list = genreSong.get(genres[i]);
             }
             else {
-                ArrayList list = new ArrayList();
-                list.add(new Song(i, plays[i]));
-                genreSong.put(genres[i], list);
+                list = new ArrayList();
             }
+            list.add(new Song(i, plays[i]));
+            genreSong.put(genres[i], list);
         }
-        
-        for (Map.Entry<String, Integer> order : genreOrder) {
-            ArrayList<Song> songs = genreSong.get(order.getKey());
-            if(songs.size() == 1) {
+
+        /* 베스트 앨범에 노래 수록 */
+        for (String order : genreOrder) {
+            ArrayList<Song> songs = genreSong.get(order);
+
+            if(songs.size() == 1) { // 한 곡만 있는 경우 => 한 곡만 수록
                 answer.add(songs.get(0).songNum);
             }
-            else {
+            else { // 그 외 => 두 곡 수록
                 songs.sort(new Comparator<Song>() {
                     @Override
                     public int compare(Song o1, Song o2) {
@@ -55,7 +56,6 @@ public class Solution {
                 answer.add(songs.get(1).songNum);
             }
         }
-
         return answer;
     }
 
