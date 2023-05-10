@@ -5,7 +5,7 @@ public class Main {
     static int N, T, G;
     static int[] cnt;
     static boolean[] visited;
-    static int result = Integer.MAX_VALUE;
+    static int result = -1;
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -18,7 +18,7 @@ public class Main {
         visited = new boolean[100000];
 
         bfs(N);
-        if (result == Integer.MAX_VALUE) {
+        if (result == -1) {
             System.out.println("ANG");
         }
         else {
@@ -36,7 +36,7 @@ public class Main {
 
             if (now == G) {
                 result = cnt[now];
-                return;
+                break;
             }
 
             if (cnt[now] + 1 > T) {
@@ -44,29 +44,28 @@ public class Main {
             }
 
             for (int i = 0; i < 2; i++) {
-                if (i == 0) { // 버튼 A
-                    int next = now + 1;
-                    if (next >= 100000 || visited[next]) {
-                        continue;
-                    }
+                int next = 0;
 
-                    visited[next] = true;
-                    dq.add(next);
-                    cnt[next] = cnt[now] + 1;
+                if (i == 0) {
+                    next = now + 1;
                 }
 
-                else { // 버튼 B
-                    int next = now * 2;
-                    if (next == 0 || next >= 100000) {
+                else {
+                    next = now * 2;
+                    if (next == 0 || next > 99999) {
                         continue;
                     }
-
                     next = (int) (next - Math.pow(10, Integer.toString(next).length() - 1));
-                    if(!visited[next]) {
-                        visited[next] = true;
-                        dq.add(next);
-                        cnt[next] = cnt[now] + 1;
-                    }
+                }
+
+                if (next < 0 || next > 99999) {
+                    continue;
+                }
+
+                if (!visited[next]) {
+                    dq.add(next);
+                    visited[next] = true;
+                    cnt[next] = cnt[now] + 1;
                 }
             }
         }
