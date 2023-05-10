@@ -1,42 +1,36 @@
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
+    static int n;
+    static ArrayList<Node> list;
+    static int[][] arr;
+    static boolean[] visited;
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
         int t = sc.nextInt();
         for (int i = 0; i < t; i++) {
-            int n = sc.nextInt();
+            n = sc.nextInt();
 
-            ArrayList<Node> list = new ArrayList<>();
+            list = new ArrayList<>();
             for (int j = 0; j < n + 2; j++) {
-                int x = sc.nextInt();
-                int y = sc.nextInt();
-                list.add(new Node(x, y));
+                list.add(new Node(sc.nextInt(), sc.nextInt()));
             }
 
-            int[][] arr = new int[n + 2][n + 2];
+            arr = new int[n + 2][n + 2];
+            visited = new boolean[n + 2];
             for (int j = 0; j < n + 2; j++) {
                 for (int k = j + 1; k < n + 2; k++) {
                     if (getDistance(list.get(j), list.get(k)) <= 1000) {
-                        arr[j][k] = 1;
-                        arr[k][j] = 1;
+                        arr[j][k] = arr[k][j] = 1;
                     }
                 }
             }
 
-            for (int k = 0; k < n + 2; k++) {
-                for (int j = 0; j < n + 2; j++) {
-                    for (int l = 0; l < n + 2; l++) {
-                        if (arr[j][k] == 1 && arr[k][l] == 1) {
-                            arr[j][l] = 1;
-                        }
-                    }
-                }
-            }
-
-            if (arr[0][n + 1] == 1) {
+            if (bfs(0)) {
                 System.out.println("happy");
             }
             else {
@@ -45,8 +39,33 @@ public class Main {
         }
     }
 
+    private static boolean bfs(int idx) {
+        ArrayDeque<Integer> dq = new ArrayDeque<>();
+        dq.add(idx);
+        visited[idx] = true;
+
+        while (!dq.isEmpty()) {
+            int now = dq.poll();
+            if (now == n + 1) { 
+                return true;
+            }
+
+            for (int i = 0; i < n + 2; i++) {
+                if (visited[i]) {
+                    continue;
+                }
+
+                if (arr[now][i] == 1) {
+                    visited[i] = true;
+                    dq.add(i);
+                }
+            }
+        }
+        return false;
+    }
+
     private static int getDistance(Node n1, Node n2) {
-        return Math.abs(n2.x - n1.x) + Math.abs(n2.y - n1.y);
+        return Math.abs(n1.x - n2.x) + Math.abs(n1.y - n2.y);
     }
 
     static public class Node {
