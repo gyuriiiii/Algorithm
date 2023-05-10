@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Main {
     static int n;
     static ArrayList<Node> list;
-    static int[][] arr;
+    static Node start, end;
     static boolean[] visited;
 
     public static void main(String[] args) {
@@ -15,22 +15,16 @@ public class Main {
         for (int i = 0; i < t; i++) {
             n = sc.nextInt();
 
-            list = new ArrayList<>();
-            for (int j = 0; j < n + 2; j++) {
+            list = new ArrayList<>(); 
+            visited = new boolean[n + 2];
+
+            start = new Node(sc.nextInt(), sc.nextInt());
+            for (int j = 0; j < n; j++) {
                 list.add(new Node(sc.nextInt(), sc.nextInt()));
             }
+            end = new Node(sc.nextInt(), sc.nextInt());
 
-            arr = new int[n + 2][n + 2];
-            visited = new boolean[n + 2];
-            for (int j = 0; j < n + 2; j++) {
-                for (int k = j + 1; k < n + 2; k++) {
-                    if (getDistance(list.get(j), list.get(k)) <= 1000) {
-                        arr[j][k] = arr[k][j] = 1;
-                    }
-                }
-            }
-
-            if (bfs(0)) {
+            if (bfs(start)) {
                 System.out.println("happy");
             }
             else {
@@ -39,25 +33,23 @@ public class Main {
         }
     }
 
-    private static boolean bfs(int idx) {
-        ArrayDeque<Integer> dq = new ArrayDeque<>();
-        dq.add(idx);
-        visited[idx] = true;
+    private static boolean bfs(Node node) {
+        ArrayDeque<Node> dq = new ArrayDeque<>();
+        dq.add(node);
 
         while (!dq.isEmpty()) {
-            int now = dq.poll();
-            if (now == n + 1) { 
+            Node now = dq.poll();
+
+            if (getDistance(now, end) <= 1000) {
                 return true;
             }
 
-            for (int i = 0; i < n + 2; i++) {
-                if (visited[i]) {
-                    continue;
-                }
-
-                if (arr[now][i] == 1) {
-                    visited[i] = true;
-                    dq.add(i);
+            for (int i = 0; i < list.size(); i++) {
+                if (!visited[i]) {
+                    if (getDistance(now, list.get(i)) <= 1000) {
+                        visited[i] = true;
+                        dq.add(list.get(i));
+                    }
                 }
             }
         }
