@@ -1,34 +1,31 @@
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        int n = sc.nextInt();
-    
+        int N = sc.nextInt();
+
         HashSet<String> set = new HashSet<>();
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < N; i++) {
             set.add(sc.next());
         }
 
-        String[] arr = set.toArray(new String[set.size()]);
-
-        Arrays.sort(arr, new Comparator<String>() {
+        ArrayList<String> list = new ArrayList<>(set);
+        Collections.sort(list, new Comparator<String>() {
             @Override
-            public int compare(String s1, String s2) {
-                if(s1.length() == s2.length()) { 
-                    return s1.compareTo(s2); 
+            public int compare(String o1, String o2) {
+                if (o1.length() == o2.length()) {
+                    return o1.compareTo(o2);
                 }
-                return s1.length() - s2.length();
+                else {
+                    return Integer.compare(o1.length(), o2.length());
+                }
             }
         });
 
-        for (String s : arr) {
+        for (String s : list) {
             System.out.println(s);
         }
     }
-    
 }
