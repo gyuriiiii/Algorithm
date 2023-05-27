@@ -1,50 +1,23 @@
-class Solution {
-    static int len;
-    static boolean[] visited;
-    static int[] order;
-    static int K;
-    static int[][] dungeon;
+class Solution {static boolean[] visited;
     static int answer;
-    
+
     public int solution(int k, int[][] dungeons) {
-        K = k;
-        dungeon = dungeons;
+        visited = new boolean[dungeons.length];
 
-        len = dungeons.length;
-        visited = new boolean[len];
-        order = new int[len];
-
-        backtracking(0);
+        backtracking(0, k, dungeons);
         return answer;
     }
-    
-    void backtracking(int cnt) {
-        if (cnt == len) {
-            answer = Math.max(answer, adventure());
-            return;
-        }
 
-        for (int i = 0; i < len; i++) {
-            if (!visited[i]) {
-                visited[i] = true;
-                order[cnt] = i;
-                backtracking(cnt + 1);
-                visited[i] = false;
+    private void backtracking(int cnt, int power, int[][] dungeons) {
+        for (int i = 0; i < dungeons.length; i++) {
+            if (visited[i] || dungeons[i][0] > power) {
+                continue;
             }
-        }
-    }
 
-    static int adventure() {
-        int power = K;
-        int cnt = 0;
-
-        for (int i = 0; i < order.length; i++) {
-            if (power < dungeon[order[i]][0]) {
-                break;
-            }
-            power -= dungeon[order[i]][1];
-            cnt++;
+            visited[i] = true;
+            backtracking(cnt + 1, power - dungeons[i][1], dungeons);
+            visited[i] = false;
         }
-        return cnt;
+        answer = Math.max(answer, cnt);
     }
 }
