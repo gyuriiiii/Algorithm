@@ -1,54 +1,46 @@
 import java.util.Scanner;
 
 public class Main {
+    static final int INF = 987654321;
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        int n = sc.nextInt(); // 도시의 개수
-        int m = sc.nextInt(); // 버스의 개수
+        int n = sc.nextInt(); // 도시 개수
+        int m = sc.nextInt(); // 버스 개수
 
-        int[][] route = new int[n + 1][n + 1];
-        int[][] cost = new int[n + 1][n + 1];
-        
-        for (int i = 1; i < n + 1; i++) {
-            for (int j = 1; j < n + 1; j++) {
-                if (i == j) {
-                    cost[i][j] = 0;
-                }
-                else {
-                    cost[i][j] = Integer.MAX_VALUE;
-                }
+        int[][] dis = new int[n + 1][n + 1];
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (i == j) continue;
+                dis[i][j] = INF;
             }
         }
 
         for (int i = 0; i < m; i++) {
-            int a = sc.nextInt();
-            int b = sc.nextInt();
-            int c = sc.nextInt();
+            int a = sc.nextInt(); // 시작 도시
+            int b = sc.nextInt(); // 도착 도시
+            int c = sc.nextInt(); // 비용
 
-            route[a][b] = 1;
-            cost[a][b] = Math.min(cost[a][b], c);
+            dis[a][b] = Math.min(dis[a][b], c);
         }
 
-        for (int k = 1; k < n + 1; k++) {
-            for (int i = 1; i < n + 1; i++) {
-                for (int j = 1; j < n + 1; j++) {
-                    if (route[i][k] == 1 && route[k][j] == 1) {
-                        route[i][j] = 1;
-                        cost[i][j] = Math.min(cost[i][j], cost[i][k] + cost[k][j]);
+        for (int k = 1; k <= n; k++) {
+            for (int i = 1; i <= n; i++) {
+                for (int j = 1; j <= n; j++) {
+                    if (dis[i][j] > dis[i][k] + dis[k][j]) {
+                        dis[i][j] = dis[i][k] + dis[k][j];
                     }
                 }
             }
         }
 
-        for (int i = 1; i < n + 1; i++) {
-            for (int j = 1; j < n + 1; j++) {
-                if (route[i][j] == 0) {
-                    System.out.print(0 + " ");
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (dis[i][j] == INF) {
+                    dis[i][j] = 0;
                 }
-                else {
-                    System.out.print(cost[i][j] + " ");
-                }
+                System.out.print(dis[i][j] + " ");
             }
             System.out.println();
         }
