@@ -1,36 +1,40 @@
+import java.util.Arrays;
+import java.util.HashSet;
+
 public class Solution {
-    static int N;
-    static int[][] computer;
-    static boolean[] visited;
+    static int[] parent;
 
     public int solution(int n, int[][] computers) {
-        int cnt = 0; 
-
-        N = n;
-        computer = computers;
-        visited = new boolean[n];
-
+        parent = new int[n];
         for (int i = 0; i < n; i++) {
-            if (!visited[i]) { 
-                cnt++;
-                dfs(i);
+            parent[i] = i;
+        }
+
+        for (int i = 0; i < computers.length; i++) {
+            for (int j = 0; j < computers[i].length; j++) {
+                if (computers[i][j] == 1) {
+                    union(i, j);
+                }
             }
         }
-        System.out.println(cnt);
-        return cnt;
+
+        HashSet<Integer> set = new HashSet<>();
+        for (int i = 0; i < parent.length; i++) {
+            set.add(find(i));
+        }
+        return set.size();
     }
 
-    private static void dfs(int now) {
-        if(visited[now]) {
-           return; 
-        }
+    static private void union(int a, int b) {
+        int x = find(a);
+        int y = find(b);
+        parent[x] = y;
+    }
 
-        visited[now] = true;
-
-        for (int i = 0; i < computer[now].length; i++) {
-            if (computer[now][i] == 1) {
-                dfs(i);
-            }
+    static private int find(int i) {
+        if (parent[i] == i) {
+            return i;
         }
+        return parent[i] = find(parent[i]);
     }
 }
