@@ -8,7 +8,7 @@ public class Main {
     static int n, m;
     static int[][] map, dis;
     static boolean[][] visited;
-    static Node end;
+    static Node start;
 
     static int[] dx = new int[]{-1, 1, 0, 0};
     static int[] dy = new int[]{0, 0, -1, 1};
@@ -35,20 +35,13 @@ public class Main {
                     dis[i][j] = 0;
                 }
                 else if (map[i][j] == 2) {
-                    end = new Node(i, j);
+                    start = new Node(i, j);
                     dis[i][j] = 0;
                 }
             }
         }
 
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                if (map[i][j] == 1) {
-                    bfs(i, j);
-                    break;
-                }
-            }
-        }
+        bfs(start);
 
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
@@ -59,10 +52,10 @@ public class Main {
         System.out.println(sb);
     }
 
-    private static void bfs(int x, int y) {
+    private static void bfs(Node start) {
         ArrayDeque<Node> dq = new ArrayDeque<>();
-        dq.add(end);
-        visited[end.x][end.y] = true;
+        dq.add(start);
+        visited[start.x][start.y] = true;
 
         while (!dq.isEmpty()) {
             Node now = dq.poll();
