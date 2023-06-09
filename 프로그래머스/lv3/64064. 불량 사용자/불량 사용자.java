@@ -13,9 +13,9 @@ public class Solution {
         return result.size();
     }
 
-    private static void dfs(HashSet<String> set, int depth) {
+private static void dfs(HashSet<String> set, int depth) {
         if (depth == bannedIds.length) {
-            result.add(set);
+            result.add(new HashSet<>(set));
             return;
         }
 
@@ -26,7 +26,7 @@ public class Solution {
 
             if (check(userIds[i], bannedIds[depth])) {
                 set.add(userIds[i]);
-                dfs(new HashSet<>(set), depth + 1);
+                dfs(set, depth + 1);
                 set.remove(userIds[i]);
             }
         }
