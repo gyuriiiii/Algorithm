@@ -52,12 +52,13 @@ public class Main {
     private static int union(String person1, String person2) {
         int x = find(map.get(person1));
         int y = find(map.get(person2));
-
-        if (x != y) {
-            parent[x] = y;
-            cnt[y] += cnt[x];
+        
+        if(x == y) {
             return cnt[y];
         }
-        return cnt[x];
+
+        parent[x] = y;
+        cnt[y] += cnt[x];
+        return cnt[y];
     }
 }
