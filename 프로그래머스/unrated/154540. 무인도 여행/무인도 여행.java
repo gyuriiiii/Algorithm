@@ -6,6 +6,7 @@ public class Solution {
     static int n, m;
     static char[][] map;
     static boolean[][] visited;
+    static int sum;
     static ArrayList<Integer> answer = new ArrayList<>();
 
     static int[] dx = new int[]{-1, 1, 0, 0};
@@ -24,7 +25,9 @@ public class Solution {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
                 if (map[i][j] != 'X' && !visited[i][j]) {
-                    answer.add(bfs(i, j));
+                    dfs(i, j);
+                    answer.add(sum);
+                    sum = 0;
                 }
             }
         }
@@ -34,34 +37,22 @@ public class Solution {
         return answer;
     }
 
-    private static int bfs(int x, int y) {
-        int sum = 0;
-
-        ArrayDeque<Node> dq = new ArrayDeque<>();
-        dq.add(new Node(x, y));
+    private static void dfs(int x, int y) {
         visited[x][y] = true;
         sum += map[x][y] - '0';
 
-        while (!dq.isEmpty()) {
-            Node now = dq.poll();
+        for (int i = 0; i < 4; i++) {
+            int nx = x + dx[i];
+            int ny = y + dy[i];
 
-            for (int i = 0; i < 4; i++) {
-                int nx = now.x + dx[i];
-                int ny = now.y + dy[i];
+            if (nx < 0 || ny < 0 || nx >= n || ny >= m || map[nx][ny] == 'X') {
+                continue;
+            }
 
-                if (nx < 0 || ny < 0 || nx >= n || ny >= m || map[nx][ny] == 'X') {
-                    continue;
-                }
-
-                if (!visited[nx][ny]) {
-                    visited[nx][ny] = true;
-                    dq.add(new Node(nx, ny));
-                    sum += map[nx][ny] - '0';
-                }
+            if (!visited[nx][ny]) {
+                dfs(nx, ny);
             }
         }
-
-        return sum;
     }
 
     static public class Node {
