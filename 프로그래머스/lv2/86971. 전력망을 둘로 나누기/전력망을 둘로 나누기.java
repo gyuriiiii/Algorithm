@@ -29,40 +29,31 @@ public class Solution {
             connect[wires[i][1]][wires[i][0]] = false;
 
             visited = new boolean[n + 1];
+            visited[1] = true;
 
-            int cnt = -1; // 전력망 개수
-            int[] nums = new int[2];
+            dfs(1);
 
-            for (int j = 1; j < n + 1; j++) {
-                if (!visited[j]) {
-                    cnt++;
-                    if (cnt > 1) break;
-
-                    num = 0;
-                    nums[cnt] = dfs(j);
-                }
+            int cnt = 0;
+            for (int j = 1; j < visited.length; j++) {
+                if (visited[j]) cnt++;
             }
 
             connect[wires[i][0]][wires[i][1]] = true;
             connect[wires[i][1]][wires[i][0]] = true;
 
-            answer = Math.min(answer, Math.abs(nums[0] - nums[1]));
+            answer = Math.min(answer, Math.abs(n - (2 * cnt)));
         }
+
+        System.out.println(answer);
         return answer;
     }
 
-    private static int dfs(int idx) {
-        visited[idx] = true;
-        num++;
-
+    private static void dfs(int idx) {
         for (int next : list[idx]) {
-            if (!visited[next]) {
-                if (connect[idx][next]) {
-                    dfs(next);
-                }
+            if (!visited[next] && connect[idx][next]) {
+                visited[next] = true;
+                dfs(next);
             }
         }
-
-        return num;
     }
 }
