@@ -5,29 +5,28 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        StringBuilder sb = new StringBuilder();
 
-        int n = sc.nextInt(); // 도시 개수
-        int m = sc.nextInt(); // 버스 개수
+        int n = sc.nextInt();
+        int m = sc.nextInt();
 
         int[][] dis = new int[n + 1][n + 1];
-        for (int i = 1; i <= n; i++) {
-            for (int j = 1; j <= n; j++) {
-                if (i == j) continue;
-                dis[i][j] = INF;
+        for (int i = 1; i < n + 1; i++) {
+            for (int j = 1; j < n + 1; j++) {
+                if (i != j) dis[i][j] = INF;
             }
         }
 
         for (int i = 0; i < m; i++) {
-            int a = sc.nextInt(); // 시작 도시
-            int b = sc.nextInt(); // 도착 도시
-            int c = sc.nextInt(); // 비용
-
+            int a = sc.nextInt();
+            int b = sc.nextInt();
+            int c = sc.nextInt();
             dis[a][b] = Math.min(dis[a][b], c);
         }
 
-        for (int k = 1; k <= n; k++) {
-            for (int i = 1; i <= n; i++) {
-                for (int j = 1; j <= n; j++) {
+        for (int k = 1; k < n + 1; k++) {
+            for (int i = 1; i < n + 1; i++) {
+                for (int j = 1; j < n + 1; j++) {
                     if (dis[i][j] > dis[i][k] + dis[k][j]) {
                         dis[i][j] = dis[i][k] + dis[k][j];
                     }
@@ -35,14 +34,16 @@ public class Main {
             }
         }
 
-        for (int i = 1; i <= n; i++) {
-            for (int j = 1; j <= n; j++) {
+        for (int i = 1; i < n + 1; i++) {
+            for (int j = 1; j < n + 1; j++) {
                 if (dis[i][j] == INF) {
                     dis[i][j] = 0;
                 }
-                System.out.print(dis[i][j] + " ");
+                sb.append(dis[i][j]).append(" ");
             }
-            System.out.println();
+            sb.append("\n");
         }
+
+        System.out.println(sb);
     }
 }
