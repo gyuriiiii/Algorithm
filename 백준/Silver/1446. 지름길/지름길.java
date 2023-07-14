@@ -42,14 +42,14 @@ public class Main {
             return;
         }
 
-        if (dis[start + 1] > dis[start] + 1) {
-            dis[start + 1] = dis[start] + 1;
-        }
-
         for (Node next : list[start]) {
             if (dis[next.end] > dis[start] + next.cost) {
                 dis[next.end] = dis[start] + next.cost;
             }
+        }
+
+        if (dis[start + 1] > dis[start] + 1) {
+            dis[start + 1] = dis[start] + 1;
         }
 
         dijkstra(start + 1);
