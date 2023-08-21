@@ -8,7 +8,7 @@ public class Main {
         int S = sc.nextInt();
 
 
-        int[] arr = new int[N + 1];
+        int[] arr = new int[N];
         for (int i = 0; i < N; i++) {
             arr[i] = sc.nextInt();
         }
@@ -19,13 +19,16 @@ public class Main {
 
         int result = Integer.MAX_VALUE;
 
-        while (left <= right && right <= N) {
-            if (sum < S) {
-                sum += arr[right++];
-            }
-            else {
+        while (true) {
+            if(sum >= S) {
                 result = Math.min(result, right - left);
                 sum -= arr[left++];
+            }
+            else if(right == N) {
+                break;
+            }
+            else  {
+                sum += arr[right++];
             }
         }
 
