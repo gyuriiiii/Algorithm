@@ -19,39 +19,25 @@ public class Main {
             max = Math.max(max, arr[i]);
         }
 
-        int answer = 0;
-
-        int low = 0;
+        int low = 1;
         int high = max;
+
+        int answer = 0;
 
         while (low <= high) {
             int mid = (low + high) / 2; // 질투심
             int sum = 0; // 나눠줄 수 있는 학생 수
 
-            int idx = 0;
-            int tmp = arr[idx];
-
-            boolean flag = false;
-            while (idx < arr.length) {
-                if (tmp > 0) {
-                    tmp -= mid;
-                    sum++;
-
-                    if (sum > N) {
-                        flag = true;
-                        break;
-                    }
+            for (int i = 0; i < M; i++) {
+                if (arr[i] % mid == 0) {
+                    sum += arr[i] / mid;
                 }
                 else {
-                    idx++;
-                    if (idx >= arr.length) {
-                        break;
-                    }
-                    tmp = arr[idx];
+                    sum += arr[i] / mid + 1;
                 }
             }
 
-            if (flag) {
+            if (sum > N) {
                 low = mid + 1;
             }
             else {
