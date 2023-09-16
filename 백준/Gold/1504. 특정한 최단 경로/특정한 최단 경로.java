@@ -4,79 +4,82 @@ import java.util.PriorityQueue;
 import java.util.Scanner;
 
 public class Main {
-    static final int INF = 987654321;
-    static int N;
     static ArrayList<Node>[] list;
+    static int[] dis;
+    static boolean[] visited;
+    static final int INF = 987654321;
+    static int v1, v2;
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        N = sc.nextInt();
+        int N = sc.nextInt();
         int E = sc.nextInt();
 
         list = new ArrayList[N + 1];
-        for (int i = 1; i <= N; i++) {
+        for (int i = 0; i < N + 1; i++) {
             list[i] = new ArrayList<>();
         }
+
+        dis = new int[N + 1];
+        visited = new boolean[N + 1];
 
         for (int i = 0; i < E; i++) {
             int a = sc.nextInt();
             int b = sc.nextInt();
             int c = sc.nextInt();
-
             list[a].add(new Node(b, c));
             list[b].add(new Node(a, c));
         }
 
-        int v1 = sc.nextInt();
-        int v2 = sc.nextInt();
+        v1 = sc.nextInt();
+        v2 = sc.nextInt();
 
-        int sToV1 = dijkstra(1, v1); // 1 -> v1
-        int sToV2 = dijkstra(1, v2); // 1 -> v2
+        long result1 = 0;
+        result1 += dijkstra(1, v1);
+        result1 += dijkstra(v1, v2);
+        result1 += dijkstra(v2, N);
 
-        int v1Tov2 = dijkstra(v1, v2); // v1 -> v2
-        if (v1Tov2 == INF) {
+        long result2 = 0;
+        result2 += dijkstra(1, v2);
+        result2 += dijkstra(v2, v1);
+        result2 += dijkstra(v1, N);
+
+        if (result1 >= INF && result2 >= INF) {
             System.out.println(-1);
             return;
         }
-
-        int v2ToN = dijkstra(v2, N); // v2 -> N
-        int v1ToN = dijkstra(v1, N); // v1 -> N
-
-        int route1 = sToV1 + v1Tov2 + v2ToN;
-        int route2 = sToV2 + v1Tov2 + v1ToN;
-
-        int answer = Math.min(route1, route2);
-        if (answer >= INF) {
-            System.out.println(-1);
-            return;
-        }
-        System.out.println(answer);
+        System.out.println(Math.min(result1, result2));
     }
 
     private static int dijkstra(int start, int end) {
-        PriorityQueue<Node> pq = new PriorityQueue<>(((o1, o2) -> Integer.compare(o1.cost, o2.cost)));
-
-        int[] dis = new int[N + 1];
         Arrays.fill(dis, INF);
+        Arrays.fill(visited, false);
 
-        dis[start] = 0;
+        PriorityQueue<Node> pq = new PriorityQueue<>(((o1, o2) -> Integer.compare(o1.cost, o2.cost)));
         pq.add(new Node(start, 0));
+        dis[start] = 0;
 
         while (!pq.isEmpty()) {
             Node now = pq.poll();
-
+            
+            if(visited[now.end]) {
+                continue;
+            }
+            visited[now.end] = true;
+            
             for (Node next : list[now.end]) {
-                if (dis[next.end] > dis[now.end] + next.cost) {
-                    dis[next.end] = dis[now.end] + next.cost;
+                if (dis[next.end] > now.cost + next.cost) {
+                    dis[next.end] = now.cost + next.cost;
                     pq.add(new Node(next.end, dis[next.end]));
                 }
             }
         }
+
         return dis[end];
     }
 
-    static public class Node {
+    private static class Node {
         int end;
         int cost;
 
