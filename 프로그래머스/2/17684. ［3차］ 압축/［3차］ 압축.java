@@ -7,49 +7,39 @@ public class Solution {
     static public ArrayList<Integer> solution(String msg) {
         ArrayList<Integer> answer = new ArrayList<>();
 
+        int n = 1;
         for (char i = 'A'; i <= 'Z'; i++) {
-            word.put(i + "", 26 - ('Z' - i));
+            word.put(i + "", n++);
         }
 
-        int idx = 0;
-        while (idx < msg.length()) {
-            String w = msg.charAt(idx) + "";
-            String tmp = find(idx, msg);
+        for (int i = 0; i < msg.length(); i++) {
+            String w = msg.charAt(i) + "";
+            int idx = i + 1; // 다음 글자 (c) 얻기 위한 index
 
-            if (word.containsKey(tmp)) {
-                answer.add(word.get(tmp));
+            while (idx <= msg.length()) {
+                if (idx == msg.length()) {
+                    answer.add(word.get(msg.substring(i)));
+                    i = idx;
+                    break;
+                }
+
+                String tmp = msg.substring(i, idx + 1);
+
+                // 사전에 존재하는 경우
+                if (word.containsKey(tmp)) {
+                    idx++;
+                }
+                // 사전에 존재하지 않는 경우
+                else {
+                    String s = msg.substring(i, idx);
+                    answer.add(word.get(s));
+                    word.put(tmp, word.size() + 1);
+                    i = idx - 1;
+                    break;
+                }
             }
-
-            if (idx + tmp.length() >= msg.length()) {
-                break;
-            }
-
-            String c = msg.charAt(idx + tmp.length()) + "";
-            
-            if (!word.containsKey(tmp + "" + c)) {
-                word.put(tmp + "" + c, word.size() + 1);
-            }
-
-            idx += tmp.length();
         }
 
         return answer;
-    }
-
-    private static String find(int idx, String msg) {
-        String s = "";
-        String maxS = "";
-
-        for (int i = idx; i < msg.length(); i++) {
-            s += msg.charAt(i);
-
-            if (word.containsKey(s)) {
-                maxS = s;
-            }
-            else {
-                break;
-            }
-        }
-        return maxS;
     }
 }
