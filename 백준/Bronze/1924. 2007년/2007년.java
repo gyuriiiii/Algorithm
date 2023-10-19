@@ -3,17 +3,18 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int x = sc.nextInt(); // 월
-        int y = sc.nextInt(); // 일
-        sc.close();
 
-        int[] days = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-        String[] weeks = { "SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT" };
+        String[] answer = {"SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"};
+        int[] dayArr = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
-        int totalDays = y; // 총 일수
-        for(int i=0; i<x-1; i++) {
-            totalDays += days[i]; 
+        int x = sc.nextInt();
+        int y = sc.nextInt();
+
+        int day = y;
+        for (int i = 1; i <= x - 1; i++) {
+            day += dayArr[i];
         }
-        System.out.println(weeks[totalDays%7]);
+
+        System.out.println(answer[day % 7]);
     }
 }
