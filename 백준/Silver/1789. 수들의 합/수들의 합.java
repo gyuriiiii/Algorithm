@@ -6,14 +6,17 @@ public class Main {
 
         long S = sc.nextLong();
         long sum = 0;
-        long count = 0 ;
-        for (int i = 1; ; i++) {
-            if(sum > S) {
+        long result = 0;
+
+        for (int i = 1; i <= S; i++) {
+            sum += i;
+
+            if (sum > S) {
                 break;
             }
-            sum += i;
-            count++;
+            result = i;
         }
-        System.out.println(count-1);
+
+        System.out.println(result);
     }
 }
