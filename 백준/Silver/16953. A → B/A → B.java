@@ -1,47 +1,40 @@
-import java.util.ArrayDeque;
-import java.util.HashMap;
-import java.util.Queue;
 import java.util.Scanner;
 
 public class Main {
-    static long A;
-    static long B;
+    static int answer = Integer.MAX_VALUE;
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        A = sc.nextInt();
-        B = sc.nextInt();
+        long A = sc.nextLong();
+        long B = sc.nextLong();
 
-        bfs(A, B);
+        dfs(1, A, B);
+
+        if (answer == Integer.MAX_VALUE) {
+            answer = -1;
+        }
+        System.out.println(answer);
     }
 
-    private static void bfs(long a, long b) {
-        Queue<Long> queue = new ArrayDeque<>();
-        HashMap<Long, Integer> map = new HashMap<>();
+    private static void dfs(int cnt, long a,long b) {
+        if (a > b) {
+            return;
+        }
 
-        queue.add(a);
-        map.put(a, 1);
+        if (a == b) {
+            answer = Math.min(answer, cnt);
+            return;
+        }
 
-        while (!queue.isEmpty()) {
-            long q = queue.poll();
-
-            if (q == B) {
-                System.out.println(map.get(q));
-                return;
+        for (int i = 0; i < 2; i++) {
+            if (i == 0) {
+                dfs(cnt + 1, a * 2, b);
             }
-
-            if (q * 2 <= B && !map.containsKey(q * 2)) {
-                queue.add(q * 2);
-                map.put(q * 2, map.get(q) + 1);
-            }
-
-            if (q * 10 + 1 <= B && !map.containsKey(q * 10 + 1)) {
-                queue.add(q * 10 + 1);
-                map.put(q * 10 + 1, map.get(q) + 1);
+            else {
+                a = Long.parseLong(Long.toString(a) + "1");
+                dfs(cnt + 1, a, b);
             }
         }
-        System.out.println(-1);
-        return;
     }
 }
