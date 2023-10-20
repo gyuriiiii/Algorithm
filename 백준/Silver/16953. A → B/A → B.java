@@ -17,24 +17,17 @@ public class Main {
         System.out.println(answer);
     }
 
-    private static void dfs(int cnt, long a,long b) {
+    private static void dfs(int cnt, long a, long b) {
         if (a > b) {
             return;
         }
 
         if (a == b) {
-            answer = Math.min(answer, cnt);
+            answer = cnt;
             return;
         }
 
-        for (int i = 0; i < 2; i++) {
-            if (i == 0) {
-                dfs(cnt + 1, a * 2, b);
-            }
-            else {
-                a = Long.parseLong(Long.toString(a) + "1");
-                dfs(cnt + 1, a, b);
-            }
-        }
+        dfs(cnt + 1, a * 2, b);
+        dfs(cnt + 1, a * 10 + 1, b);
     }
 }
