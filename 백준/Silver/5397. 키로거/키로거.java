@@ -1,5 +1,5 @@
+import java.util.ArrayDeque;
 import java.util.Scanner;
-import java.util.Stack;
 
 public class Main {
     public static void main(String[] args) {
@@ -9,40 +9,40 @@ public class Main {
         for (int i = 0; i < T; i++) {
             String s = sc.next();
 
-            Stack<Character> left = new Stack<>();
-            Stack<Character> right = new Stack<>();
+            ArrayDeque<Character> left = new ArrayDeque<>();
+            ArrayDeque<Character> right = new ArrayDeque<>();
 
             for (int j = 0; j < s.length(); j++) {
                 char c = s.charAt(j);
 
                 if (c == '<') {
                     if (!left.isEmpty()) {
-                        right.add(left.pop());
+                        right.addLast(left.pollLast());
                     }
                 }
                 else if (c == '>') {
                     if (!right.isEmpty()) {
-                        left.add(right.pop());
+                        left.addLast(right.pollLast());
                     }
                 }
                 else if (c == '-') {
                     if (!left.isEmpty()) {
-                        left.pop();
+                        left.pollLast();
                     }
                 }
                 else {
-                    left.add(c);
+                    left.addLast(c);
                 }
             }
 
             StringBuilder sb = new StringBuilder();
 
             while (!left.isEmpty()) {
-                right.add(left.pop());
+                sb.append(left.pollFirst());
             }
 
             while (!right.isEmpty()) {
-                sb.append(right.pop());
+                sb.append(right.pollLast());
             }
 
             System.out.println(sb);
