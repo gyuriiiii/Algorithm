@@ -1,63 +1,58 @@
-import java.util.ArrayDeque;
-
 public class Solution {
-    static int N, M;
+    static int N, M, X, Y, R, C, K;
     static int[] dx = {1, 0, 0, -1};
     static int[] dy = {0, -1, 1, 0};
     static String[] op = {"d", "l", "r", "u"};
+    static StringBuilder sb = new StringBuilder();
+    static boolean[][][] visited;
+    static String answer = "";
 
     static public String solution(int n, int m, int x, int y, int r, int c, int k) {
         N = n;
         M = m;
-        
-        boolean[][][] visited = new boolean[n + 1][m + 1][k + 1];
+        X = x;
+        Y = y;
+        R = r;
+        C = c;
+        K = k;
 
-        ArrayDeque<Node> dq = new ArrayDeque<>();
-        dq.add(new Node(x, y, new StringBuilder()));
+        visited = new boolean[N + 1][M + 1][K + 1];
         visited[x][y][0] = true;
 
-        while (!dq.isEmpty()) {
-            Node now = dq.poll();
+        dfs(x, y, 0);
 
-            if (now.x == r && now.y == c) {
-                if (now.sb.length() == k) {
-                    return now.sb.toString();
-                }
-            }
+        if (answer.equals("")) {
+            return "impossible";
+        }
+        return answer;
+    }
 
-            if (now.sb.toString().length() == k) {
+    private static void dfs(int x, int y, int cnt) {
+        if (!answer.equals("")) {
+            return;
+        }
+
+        if (x == R && y == C && cnt == K) {
+            answer = sb.toString();
+            return;
+        }
+
+        for (int i = 0; i < 4; i++) {
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+
+            if (!inRange(nx, ny) || cnt + 1 > K) {
                 continue;
             }
 
-            for (int i = 0; i < 4; i++) {
-                int nx = now.x + dx[i];
-                int ny = now.y + dy[i];
-
-                if (!inRange(nx, ny)) {
-                    continue;
-                }
-
-                if (visited[nx][ny][now.sb.toString().length() + 1]) {
-                    continue;
-                }
-
-                visited[nx][ny][now.sb.toString().length() + 1] = true;
-                dq.add(new Node(nx, ny, new StringBuilder(now.sb).append(op[i])));
+            if (visited[nx][ny][cnt + 1]) {
+                continue;
             }
-        }
 
-        return "impossible";
-    }
-
-    static public class Node {
-        int x;
-        int y;
-        StringBuilder sb;
-
-        public Node(int x, int y, StringBuilder sb) {
-            this.x = x;
-            this.y = y;
-            this.sb = sb;
+            visited[nx][ny][cnt + 1] = true;
+            sb.append(op[i]);
+            dfs(nx, ny, cnt + 1);
+            sb.deleteCharAt(sb.length() - 1);
         }
     }
 
