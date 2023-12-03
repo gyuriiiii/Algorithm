@@ -1,3 +1,2 @@
-# Baekjoon
-Algorithm / Baekjoon <br>
+# Algorithm
 Language : Java
